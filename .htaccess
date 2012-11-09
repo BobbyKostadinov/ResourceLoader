@@ -1,3 +1,4 @@
 RewriteEngine on
 
-RewriteRule ^(.*)$ loader.php?request=$1 [L,QSA]
+RewriteRule .js$ - [L,QSA]
+RewriteRule (.*) loader.php?request=$1 [L,QSA]

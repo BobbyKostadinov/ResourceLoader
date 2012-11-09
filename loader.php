@@ -1,17 +1,16 @@
 <?php 
 
-//echo $_GET['request'];	
-define( 'APPLICATION_PATH', realpath( dirname( __FILE__ ) ) );
+define( 'APPLICATION_PATH', realpath( dirname( __FILE__ ) .'/../' ) );
 defined('NETWORK')
 || define('NETWORK', (getenv('NETWORK') ? strtolower(getenv('NETWORK')) : 'moreniche'));
 
 require_once (realpath( dirname( __FILE__ ) ) . '/../../library/Files/Factory.php');
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 $paths = array (
- 'd:/www/twist-base/' . NETWORK . '/skin/common/'		,
- 'd:/www/twist-base/' . NETWORK . '/skin/affiliates/'		
-		);
+    APPLICATION_PATH .'/../' . NETWORK . '/skin/common/',
+    APPLICATION_PATH .'/../' . NETWORK . '/skin/affiliates/'		
+);
 
 	try {
 		$oFile = Files_Factory::getFile($paths, $_GET['request']);
