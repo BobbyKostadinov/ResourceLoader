@@ -22,9 +22,9 @@ class Files_File
 		if (headers_sent()) {
 			throw new Files_Exception('Headers already sent');
 		}
-		if( strpos($_SERVER[HTTP_ACCEPT_ENCODING], 'x-gzip') !== false ){
+		if( strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'x-gzip') !== false ){
 			$encoding = 'x-gzip';
-		}elseif( strpos($_SERVER[HTTP_ACCEPT_ENCODING],'gzip') !== false ){
+		}elseif( strpos($_SERVER['HTTP_ACCEPT_ENCODING'],'gzip') !== false ){
 			$encoding = 'gzip';
 		}else{
 			$encoding = false;
@@ -32,15 +32,14 @@ class Files_File
 		
 		ob_start();
 		ob_implicit_flush(0);
+		header('Content-type:'  . $this->fileMIME);
+		header("Cache-Control: public; max-age=36000");
 		echo $this->content;
-		
-		
+		$encoding = false;
 		if( $encoding ){
 			$contents = ob_get_contents();
 			ob_end_clean();
-			header('Content-type:'  . $this->fileMIME);
 			header('Content-Encoding: '.$encoding);
-			header("Cache-Control: public; max-age=36000");
 			print("\x1f\x8b\x08\x00\x00\x00\x00\x00");
 			$size = strlen($contents);
 			$contents = gzcompress($contents, 9);
